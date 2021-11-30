@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.security.SecureRandom;
 
 public class PluginGeocoder extends CordovaPlugin {
 
@@ -30,7 +31,7 @@ public class PluginGeocoder extends CordovaPlugin {
   // According from my tests,  5 threads are the best setting.
   private static ExecutorService executorService = Executors.newFixedThreadPool(5);
   private static Geocoder geocoder = null;
-
+  private static SecureRandom secRan = new SecureRandom();
 
   public void initialize(CordovaInterface cordova, final CordovaWebView webView) {
     super.initialize(cordova, webView);
@@ -90,7 +91,8 @@ public class PluginGeocoder extends CordovaPlugin {
                 retry = true;
                 retryLimit--;
                 try {
-                  Thread.sleep((int)(150 + Math.random() * 100));  // wait (150 + random)ms before retry
+                  int number = PluginGeocoder.secRan.nextInt(100);
+                  Thread.sleep((int)(150 + number));  // wait (150 + random)ms before retry
                 } catch (InterruptedException e1) {
                   //e1.printStackTrace();
                 }
@@ -122,7 +124,8 @@ public class PluginGeocoder extends CordovaPlugin {
             if ("Timed out waiting for response from server".equals(e.getMessage())) {
               retry = true;
               try {
-                Thread.sleep((int)(150 + Math.random() * 100));  // wait (150 + random)ms before retry
+                int number = PluginGeocoder.secRan.nextInt(100);
+                Thread.sleep((int)(150 + number));  // wait (150 + random)ms before retry
               } catch (InterruptedException e1) {
                 //e1.printStackTrace();
               }
@@ -161,7 +164,8 @@ public class PluginGeocoder extends CordovaPlugin {
             retry = true;
             retryLimit--;
             try {
-              Thread.sleep((int)(150 + Math.random() * 100));  // wait (150 + random)ms before retry
+              int number = PluginGeocoder.secRan.nextInt(100);
+              Thread.sleep((int)(150 + number));  // wait (150 + random)ms before retry
             } catch (InterruptedException e1) {
               //e1.printStackTrace();
             }
